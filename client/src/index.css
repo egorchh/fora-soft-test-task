@@ -1,0 +1,24 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--green-color)
+}
+
+:root {
+  --green-color: #014344;
+  --green-light-color: #01434483;
+  --white-color: #ede4e5;
+  --purple-color: #a2a9d1;
+}

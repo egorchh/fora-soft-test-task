@@ -1,0 +1,19 @@
+.input-component {
+  border: none;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: var(--white-color);
+  border: solid 2px var(--green-light-color);
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: bold;
+  width: 100%;
+}
+
+.input-component::placeholder {
+  color: var(--green-light-color)
+}
+
+.input-component:focus {
+  border: solid 2px var(--green-color);
+}

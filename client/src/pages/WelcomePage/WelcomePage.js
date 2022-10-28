@@ -1,5 +1,4 @@
-import ButtonComponent from "../../components/ui/ButtonComponent/ButtonComponent";
-import InputComponent from "../../components/ui/InputComponent/InputComponent";
+import JoinForm from "../../components/JoinForm/JoinForm";
 
 import socket from "../../socket";
 
@@ -13,9 +12,7 @@ const WelcomePage = () => {
         <p className="welcome-page__description">
           Here you can chat with people in real time
         </p>
-        <InputComponent placeholder={"Room ID"} />
-        <InputComponent placeholder={"Your name"} />
-        <ButtonComponent text={"Start chatting"} />
+        <JoinForm />
       </div>
     </article>
   );

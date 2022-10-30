@@ -1,10 +1,8 @@
 import JoinForm from "../../components/JoinForm/JoinForm";
 
-import socket from "../../socket";
-
 import "./welcome-page.css";
 
-const WelcomePage = () => {
+const WelcomePage = ({ onLogin }) => {
   return (
     <article className="welcome-page">
       <div className="welcome-page__wrapper">
@@ -12,7 +10,7 @@ const WelcomePage = () => {
         <p className="welcome-page__description">
           Here you can chat with people in real time
         </p>
-        <JoinForm />
+        <JoinForm onLogin={onLogin} />
       </div>
     </article>
   );

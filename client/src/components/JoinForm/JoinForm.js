@@ -6,12 +6,22 @@ import axios from "axios";
 
 import "./join-form.css";
 
-const JoinForm = () => {
+const JoinForm = ({ onLogin }) => {
   const submitHandler = (values) => {
-    axios.post("/rooms", {
+    const loginData = {
       roomId: values.roomId,
       userName: values.name,
-    });
+    };
+    try {
+      axios
+        .post("/rooms", loginData)
+        .then(onLogin(loginData))
+        .catch((e) => {
+          console.log(e, "Ошибка отправки данных на сервер");
+        });
+    } catch (error) {
+      throw new Error(error, "Ошибка отправки данных на сервер");
+    }
   };
 
   return (

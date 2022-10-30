@@ -1,0 +1,18 @@
+.user-item {
+  padding: 5px 10px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(34, 60, 80, 0.2);
+  -o-box-shadow: 0px 0px 5px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 5px 0px rgba(34, 60, 80, 0.2);
+}
+
+.user-item:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.user-item__name {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+}

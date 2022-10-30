@@ -1,0 +1,24 @@
+.chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: var(--purple-color)
+}
+
+.chat-window {
+  display: flex;
+  width: 80vw;
+  min-width: 500px;
+  height: 70vh;
+  min-height: 500px;
+  border-radius: 15px;
+  background-color: var(--white-color);
+}
+
+.chat__message-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}

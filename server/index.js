@@ -1,8 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const rooms = require("./db");
 
 const PORT = 8080;
+const rooms = new Map();
 
 const app = express();
 
@@ -14,15 +14,36 @@ const io = require("socket.io")(server, {
   },
 });
 
+app.use(express.json());
+
 app.get("/rooms", (req, res) => {
   res.json(rooms);
 });
 
 app.post("/rooms", (req, res) => {
+  const { roomId, userName } = req.body;
+
+  if (!rooms.has(roomId)) {
+    rooms.set(
+      roomId,
+      new Map([
+        ["users", new Map()],
+        ["messages", []],
+      ])
+    );
+  }
+
   res.send();
 });
 
 io.on("connection", (socket) => {
+  socket.on("ROOM:JOIN", ({ roomId, userName }) => {
+    socket.join(roomId);
+    rooms.get(roomId).get("users").set(socket.id, userName);
+    const users = [...rooms.get(roomId).get("users").values()];
+    socket.broadcast.to(roomId).emit("ROOM:JOINED", users);
+  });
+
   console.log("user connected", socket.id);
 });
 

@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { reducer } from "./reducer";
 import socket from "./socket";
+import axios from "axios";
 
 import ChatPage from "./pages/ChatPage/ChatPage";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
@@ -14,27 +15,41 @@ function App() {
     messages: [],
   });
 
-  const onLogin = (loginData) => {
+  const onLogin = async (obj) => {
+    try {
+      dispatch({
+        type: "JOINED",
+        payload: obj,
+      });
+      socket.emit("ROOM:JOIN", obj);
+      const { data } = await axios.get(`/rooms/${obj.roomId}`);
+      setUsers(data.users);
+    } catch (error) {
+      throw new Error(error, "Ошибка при отправки GET запроса");
+    }
+  };
+
+  const setUsers = (users) => {
     dispatch({
-      type: "JOINED",
-      payload: loginData,
+      type: "SET_USERS",
+      payload: users,
     });
-    socket.emit("ROOM:JOIN", loginData);
   };
 
   useEffect(() => {
-    socket.on("ROOM:JOINED", (users) => {
-      console.log("New user joined", users);
-    });
+    socket.on("ROOM:SET_USERS", setUsers);
+    // eslint-disable-next-line
   }, []);
 
   window.socket = socket;
 
-  console.log(state);
-
   return (
     <div className="app">
-      {!state.joined ? <WelcomePage onLogin={onLogin} /> : <ChatPage />}
+      {!state.joined ? (
+        <WelcomePage onLogin={onLogin} />
+      ) : (
+        <ChatPage users={state.users} messages={state.messages} />
+      )}
     </div>
   );
 }

@@ -1,23 +1,30 @@
 const express = require("express");
-const cors = require("cors");
 
 const PORT = 8080;
-const rooms = new Map();
 
 const app = express();
 
 const server = require("http").Server(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000"],
     methods: ["GET", "POST"],
   },
 });
 
 app.use(express.json());
 
-app.get("/rooms", (req, res) => {
-  res.json(rooms);
+const rooms = new Map();
+
+app.get("/rooms/:id", (req, res) => {
+  const { id: roomId } = req.params;
+  const obj = rooms.has(roomId)
+    ? {
+        users: [...rooms.get(roomId).get("users").values()],
+        messages: [...rooms.get(roomId).get("messages").values()],
+      }
+    : { users: [], messages: [] };
+  res.json(obj);
 });
 
 app.post("/rooms", (req, res) => {
@@ -41,7 +48,16 @@ io.on("connection", (socket) => {
     socket.join(roomId);
     rooms.get(roomId).get("users").set(socket.id, userName);
     const users = [...rooms.get(roomId).get("users").values()];
-    socket.broadcast.to(roomId).emit("ROOM:JOINED", users);
+    socket.broadcast.to(roomId).emit("ROOM:SET_USERS", users);
+  });
+
+  socket.on("disconnect", () => {
+    rooms.forEach((value, roomId) => {
+      if (value.get("users").delete(socket.id)) {
+        const users = [...value.get("users").values()];
+        socket.broadcast.to(roomId).emit("ROOM:SET_USERS", users);
+      }
+    });
   });
 
   console.log("user connected", socket.id);

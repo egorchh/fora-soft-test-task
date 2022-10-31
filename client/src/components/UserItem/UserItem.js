@@ -1,9 +1,9 @@
 import "./user-item.css";
 
-const UserItem = () => {
+const UserItem = ({ name }) => {
   return (
     <li className="user-item">
-      <p className="user-item__name">Egor</p>
+      <p className="user-item__name">{name}</p>
     </li>
   );
 };

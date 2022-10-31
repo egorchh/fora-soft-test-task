@@ -16,6 +16,7 @@
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   resize: none;
+  font-family: 'Nunito', sans-serif;
 }
 
 .message-form__button {

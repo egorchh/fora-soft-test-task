@@ -3,13 +3,13 @@ import MessageList from "../../components/MessagesList/MessageList";
 import UsersList from "../../components/UsersList/UsersList";
 import "./chat-page.css";
 
-const ChatPage = () => {
+const ChatPage = ({ users, messages }) => {
   return (
     <div className="chat">
       <div className="chat-window">
-        <UsersList />
+        <UsersList users={users} />
         <div className="chat__message-wrapper">
-          <MessageList />
+          <MessageList messages={messages} />
           <MessageForm />
         </div>
       </div>
